@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from "react";
+import { ChangeEvent } from "react";
 import styles from "./Input.module.scss";
 
 interface IInputProps {
