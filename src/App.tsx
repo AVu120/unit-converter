@@ -1,14 +1,20 @@
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
+import {
+  default as MetersInput,
+  default as CentimetersInput,
+  default as KilogramsInput,
+  default as GramsInput,
+} from "../src/components/input/Input";
 import styles from "./App.module.scss";
 
 interface ILength {
-  meters: number | "";
-  centimeters: number | "";
+  meters: number | string;
+  centimeters: number | string;
 }
 
 interface IMass {
-  kilograms: number | "";
-  grams: number | "";
+  kilograms: number | string;
+  grams: number | string;
 }
 
 function App() {
@@ -19,14 +25,20 @@ function App() {
     e: ChangeEvent<HTMLInputElement>,
     unit: "m" | "cm"
   ): void => {
+    const stringValue = e.target.value;
+    const numberValue = Number(stringValue);
     // if a number or "".
-    if (!isNaN(Number(e.target.value))) {
-      if (e.target.value === "")
-        return setLength({ meters: "", centimeters: "" });
-      const value = Number(e.target.value);
+    if (!isNaN(numberValue)) {
+      if (stringValue === "") return setLength({ meters: "", centimeters: "" });
       if (unit === "m")
-        return setLength({ meters: value, centimeters: value * 100 });
-      setLength({ meters: value / 100, centimeters: value });
+        return setLength({
+          meters: stringValue.includes(".") ? stringValue : numberValue,
+          centimeters: numberValue * 100,
+        });
+      setLength({
+        meters: numberValue / 100,
+        centimeters: stringValue.includes(".") ? stringValue : numberValue,
+      });
     }
   };
 
@@ -34,38 +46,46 @@ function App() {
     e: ChangeEvent<HTMLInputElement>,
     unit: "kg" | "g"
   ): void => {
+    const stringValue = e.target.value;
+    const numberValue = Number(stringValue);
     // if a number or "".
-    if (!isNaN(Number(e.target.value))) {
-      if (e.target.value === "") return setMass({ kilograms: "", grams: "" });
-      const value = Number(e.target.value);
+    if (!isNaN(numberValue)) {
+      if (stringValue === "") return setMass({ kilograms: "", grams: "" });
       if (unit === "kg")
-        return setMass({ kilograms: value, grams: value * 1000 });
-      setMass({ kilograms: value / 1000, grams: value });
+        return setMass({
+          kilograms: stringValue.includes(".") ? stringValue : numberValue,
+          grams: numberValue * 1000,
+        });
+      setMass({
+        kilograms: numberValue / 1000,
+        grams: stringValue.includes(".") ? stringValue : numberValue,
+      });
     }
   };
   return (
     <div className={styles.App}>
       <h1>Unit Converter</h1>
       <div className={styles.grid}>
-        <div className={styles.input}>
-          <input onChange={(e) => changeLength(e, "m")} value={length.meters} />
-          <label>Meter</label>
-        </div>
-        <div className={styles.input}>
-          <input
-            onChange={(e) => changeLength(e, "cm")}
-            value={length.centimeters}
-          />
-          <label>Centimeter</label>
-        </div>
-        <div className={styles.input}>
-          <input onChange={(e) => changeMass(e, "kg")} value={mass.kilograms} />
-          <label>Kilogram</label>
-        </div>
-        <div className={styles.input}>
-          <input onChange={(e) => changeMass(e, "g")} value={mass.grams} />
-          <label>Gram</label>
-        </div>
+        <MetersInput
+          onChange={(e: ChangeEvent<HTMLInputElement>) => changeLength(e, "m")}
+          value={length.meters}
+          label="Meter"
+        />
+        <CentimetersInput
+          onChange={(e: ChangeEvent<HTMLInputElement>) => changeLength(e, "cm")}
+          value={length.centimeters}
+          label="Centimeter"
+        />
+        <KilogramsInput
+          onChange={(e: ChangeEvent<HTMLInputElement>) => changeMass(e, "kg")}
+          value={mass.kilograms}
+          label="Kilogram"
+        />
+        <GramsInput
+          onChange={(e: ChangeEvent<HTMLInputElement>) => changeMass(e, "g")}
+          value={mass.grams}
+          label="Gram"
+        />
       </div>
     </div>
   );
