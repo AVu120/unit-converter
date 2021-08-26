@@ -11,7 +11,7 @@ function App() {
         </div>
         <div className={styles.input}>
           <input />
-          Centimeter
+          <label>Centimeter</label>
         </div>
         <div className={styles.input}>
           <input />
