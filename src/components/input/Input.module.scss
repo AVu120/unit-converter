@@ -1,8 +1,23 @@
+$errorColor: red;
+
 .input {
   display: flex;
   flex-direction: column;
 }
 
-.error {
-  border-color: red;
+.input_error {
+  border-color: $errorColor !important;
+}
+
+.input_error:focus {
+  border-color: $errorColor;
+  outline: none;
+}
+
+.error_message {
+  color: $errorColor;
+  font-size: 0.75rem;
+}
+
+.unit_selector {
 }

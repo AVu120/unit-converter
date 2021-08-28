@@ -8,7 +8,7 @@ import { updateUnitValues } from "./services/unitConversion";
 import { IMap } from "./types/common";
 
 function App() {
-  const [length, setLength] = useState<IMap<string | number>>({
+  const [unitValues, setUnitValues] = useState<IMap<string | number>>({
     unit1: 0,
     unit2: 0,
   });
@@ -21,43 +21,49 @@ function App() {
   return (
     <div className={styles.App}>
       <h1>Unit Converter</h1>
-      <div className={styles.grid}>
-        <Unit1Input
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            updateUnitValues({
-              e,
-              unit: "m",
-              units: ["m", "cm"],
-              leftToRightConversion: (num) => num * 100,
-              rightToLeftConversion: (num) => num / 100,
-              setState: setLength,
-              setErrors,
-              errors,
-            })
-          }
-          value={length.m}
-          unit="m"
-          label="Meter"
-          errors={errors}
-        />
-        <Unit2Input
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            updateUnitValues({
-              e,
-              unit: "cm",
-              units: ["m", "cm"],
-              leftToRightConversion: (num) => num * 100,
-              rightToLeftConversion: (num) => num / 100,
-              setState: setLength,
-              setErrors,
-              errors,
-            });
-          }}
-          value={length.cm}
-          unit="cm"
-          label="Centimeter"
-          errors={errors}
-        />
+      <div className={styles.inputs_container}>
+        <select className={styles.measurement_selector_input}>
+          <option>Length</option>
+        </select>
+        <div className={styles.inputs_grid}>
+          <Unit1Input
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              updateUnitValues({
+                e,
+                unit: "m",
+                units: ["m", "cm"],
+                leftToRightConversion: (num) => num * 100,
+                rightToLeftConversion: (num) => num / 100,
+                setState: setUnitValues,
+                setErrors,
+                errors,
+              })
+            }
+            value={unitValues.m}
+            unit="m"
+            label="Meter"
+            errors={errors}
+          />
+          <span className={styles.equalSign}>=</span>
+          <Unit2Input
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              updateUnitValues({
+                e,
+                unit: "cm",
+                units: ["m", "cm"],
+                leftToRightConversion: (num) => num * 100,
+                rightToLeftConversion: (num) => num / 100,
+                setState: setUnitValues,
+                setErrors,
+                errors,
+              });
+            }}
+            value={unitValues.cm}
+            unit="cm"
+            label="Centimeter"
+            errors={errors}
+          />
+        </div>
       </div>
     </div>
   );

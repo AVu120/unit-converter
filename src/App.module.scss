@@ -6,14 +6,27 @@
   justify-content: center;
 }
 
-.grid {
+.inputs_container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
+  grid-row-gap: 15px;
+}
+.measurement_selector_input {
+  // with:
+}
+
+.inputs_grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 }
 
-.input {
-  display: flex;
-  flex-direction: column;
+.equalSign {
+  text-align: center;
+  width: 27px;
+  font-size: 26px;
+  color: #70757a;
+  position: relative;
+  bottom: 10px;
 }
