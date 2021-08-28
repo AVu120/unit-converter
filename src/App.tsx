@@ -14,8 +14,8 @@ function App() {
   });
 
   const [errors, setErrors] = useState<IMap<string>>({
-    Meters: "",
-    Centimeters: "",
+    unit1: "",
+    unit2: "",
   });
 
   return (
