@@ -64,10 +64,10 @@ function App() {
             label="Centimeter"
             errors={errors}
           />
-          <div className={styles.formula}>
-            <span className={styles.formula_logo}>Formula</span> multiply the
-            length value by 100
-          </div>
+        </div>
+        <div className={styles.formula}>
+          <span className={styles.formula_logo}>Formula</span> multiply the
+          length value by 100
         </div>
       </div>
     </div>

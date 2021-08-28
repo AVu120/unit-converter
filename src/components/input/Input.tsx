@@ -16,14 +16,15 @@ const Input = ({ onChange, value, label, unit, errors }: IInputProps) => {
   const errorMessage = !hasValidInput && currentErrors[0][1];
 
   return (
-    <div className={styles.input}>
+    <div className={styles.input_container}>
       <input
         onChange={onChange}
         value={value}
         className={`${!hasValidInput && styles.input_error}`}
+        style={{ fontSize: "1rem" }}
       />
       <span className={styles.error_message}>{errorMessage}</span>
-      <select>
+      <select className={styles.select}>
         <option>{label}</option>
       </select>
     </div>
