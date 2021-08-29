@@ -20,8 +20,7 @@ const Input = ({ onChange, value, label, unit, errors }: IInputProps) => {
       <input
         onChange={onChange}
         value={value}
-        className={`${!hasValidInput && styles.input_error}`}
-        style={{ fontSize: "1rem" }}
+        className={`${styles.input} ${!hasValidInput && styles.input_error}`}
       />
       <span className={styles.error_message}>{errorMessage}</span>
       <select className={styles.select}>

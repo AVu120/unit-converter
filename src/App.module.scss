@@ -1,46 +1,55 @@
+@import "../src/styles/themeColors.module";
+@import "../src/styles/uiTheme.module";
+
 .App {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  // width: 100vw;
   align-items: center;
   justify-content: center;
 }
 
-.inputs_container {
+.unit_converter_container {
   display: grid;
   grid-template-columns: auto;
   grid-row-gap: 15px;
+  border-radius: 8px;
+  border: 1px solid #dfe1e5;
+  box-shadow: none;
+  padding: 20px 15px;
 }
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .measurement_selector_input {
   font-size: 1rem;
+  background-color: $selectBackgroundColor;
+  border: $inputBorder;
 }
 
 .inputs_grid {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  margin: 5px 0;
 }
 
 .equalSign {
-  // text-align: center;
-  // width: 10px;
   font-size: 20px;
-  color: #70757a;
+  color: $equalSign;
   position: relative;
   bottom: 5px;
   padding: 0;
 }
 
-.formula {
-  // font-size: 0.75rem;
-}
-
 .formula_logo {
   padding: 1px 3px 1.5px 3px;
-  color: #fff;
-  background-color: #f9ab00;
+  color: $whiteFontColor;
+  background-color: $formulaLogoBackgroundColor;
   margin: 0 8px 0 0;
   border-radius: 2px;
 }

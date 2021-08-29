@@ -8,7 +8,6 @@ import { updateUnitValues } from "./services/unitConversion";
 import { IMap } from "./types/common";
 
 function App() {
-  const [measurement, setMeasurement] = useState("Length");
   const [unitValues, setUnitValues] = useState<IMap<string | number>>({
     unit1: 0,
     unit2: 0,
@@ -21,8 +20,8 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <h1>Unit Converter</h1>
-      <div className={styles.inputs_container}>
+      <div className={styles.unit_converter_container}>
+        <h1 className={styles.title}>Unit Converter</h1>
         <select className={styles.measurement_selector_input}>
           <option>Length</option>
         </select>
@@ -65,7 +64,7 @@ function App() {
             errors={errors}
           />
         </div>
-        <div className={styles.formula}>
+        <div>
           <span className={styles.formula_logo}>Formula</span> multiply the
           length value by 100
         </div>

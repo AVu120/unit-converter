@@ -1,15 +1,18 @@
-$errorColor: red;
+@import "../../styles/themeColors.module";
+@import "../../styles/uiTheme.module";
 
 .input_container {
   display: flex;
   flex-direction: column;
   min-width: 135px;
-  width: 15vw;
+  width: 20vw;
   word-wrap: break-word;
 }
 
 .input {
-  font-size: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  border: $inputBorder;
 }
 
 .input_error {
@@ -27,4 +30,6 @@ $errorColor: red;
 
 .select {
   font-size: 1rem;
+  background-color: $selectBackgroundColor;
+  border: $inputBorder;
 }

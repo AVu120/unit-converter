@@ -37,7 +37,7 @@ export const updateUnitValues = ({
   ) {
     if (unit === units[0]) {
       setErrors({
-        [units[0]]: "Error, only valid numbers allowed",
+        [units[0]]: "Error: only valid numbers allowed.",
         [units[1]]: "",
       });
       return setState({
@@ -47,7 +47,7 @@ export const updateUnitValues = ({
     }
     setErrors({
       [units[0]]: "",
-      [units[1]]: "Error, only valid numbers allowed",
+      [units[1]]: "Error: only valid numbers allowed.",
     });
     return setState({
       [units[0]]: "",
