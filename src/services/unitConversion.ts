@@ -1,16 +1,19 @@
-import { Dispatch, SetStateAction } from "react";
-import { ChangeEvent } from "react";
-import { IMap } from "../types/common";
+import {
+  TSetState,
+  TSetErrors,
+  TMapOfStrings,
+  TChangeEvent,
+} from "../types/common";
 
 interface IUpdateUnitValuesParams {
-  e: ChangeEvent<HTMLInputElement>;
+  e: TChangeEvent;
   unit: string;
   units: [string, string];
   leftToRightConversion: (param: number) => number;
   rightToLeftConversion: (param: number) => number;
-  setState: Dispatch<SetStateAction<IMap<string | number>>>;
-  setErrors: Dispatch<SetStateAction<IMap<string>>>;
-  errors: IMap<string>;
+  setState: TSetState;
+  setErrors: TSetErrors;
+  errors: TMapOfStrings;
 }
 
 export const updateUnitValues = ({
