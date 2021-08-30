@@ -3,6 +3,7 @@ import styles from "./App.module.scss";
 import { IMap } from "./types/common";
 import Inputs from "./components/inputs/Inputs";
 import data from "../src/services/data";
+import { getConversionFunctions } from "./services/unitConversion";
 
 export const UnitTypeContext = createContext<any>(null);
 
@@ -54,7 +55,7 @@ function App() {
             setUnitValues={setUnitValues}
             errors={errors}
             setErrors={setErrors}
-            conversionFunctions={[(num) => num * 100, (num) => num / 100]}
+            conversionFunctions={getConversionFunctions(unitType, unit1, unit2)}
           />
           <div>
             <span className={styles.formula_logo}>Formula</span> multiply the

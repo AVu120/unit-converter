@@ -8,18 +8,34 @@ const data: any = {
     },
     conversionFunctions: {
       m: {
-        cm: {
-          leftToRight: (num: number): number => num * 100,
-          rightToLeft: (num: number): number => num / 100,
-        },
-        mm: {
-          leftToRight: (num: number): number => num * 1000,
-          rightToLeft: (num: number): number => num / 1000,
-        },
-        μm: {
-          leftToRight: (num: number): number => num * 1000000,
-          rightToLeft: (num: number): number => num / 1000000,
-        },
+        cm: [
+          (num: number): number => num * 100,
+          (num: number): number => num / 100,
+        ],
+        mm: [
+          (num: number): number => num * 1000,
+          (num: number): number => num / 1000,
+        ],
+        μm: [
+          (num: number): number => num * 1000000,
+          (num: number): number => num / 1000000,
+        ],
+      },
+      cm: {
+        mm: [
+          (num: number): number => num * 10,
+          (num: number): number => num / 10,
+        ],
+        μm: [
+          (num: number): number => num * 10000,
+          (num: number): number => num / 10000,
+        ],
+      },
+      mm: {
+        μm: [
+          (num: number): number => num * 1000,
+          (num: number): number => num / 1000,
+        ],
       },
     },
   },
@@ -30,10 +46,10 @@ const data: any = {
     },
     conversionFunctions: {
       kg: {
-        g: {
-          leftToRight: (num: number): number => num * 1000,
-          rightToLeft: (num: number): number => num / 1000,
-        },
+        g: [
+          (num: number): number => num * 1000,
+          (num: number): number => num / 1000,
+        ],
       },
     },
   },
