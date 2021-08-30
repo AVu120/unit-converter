@@ -11,7 +11,6 @@ import {
 
 interface IInputsProps {
   units: [string, string];
-  labels: [string, string];
   unitValues: TMapOfStringOrNumbers;
   setUnitValues: TSetState;
   errors: TMapOfStrings;
@@ -21,7 +20,6 @@ interface IInputsProps {
 
 const Inputs = ({
   units,
-  labels,
   unitValues,
   setUnitValues,
   errors,
@@ -45,8 +43,10 @@ const Inputs = ({
         }
         value={Object.values(unitValues)[0]}
         unit={units[0]}
-        label={labels[0]}
+        units={units}
         errors={errors}
+        setErrors={setErrors}
+        setUnitValues={setUnitValues}
       />
       <span className={styles.equalSign}>=</span>
       <Unit2Input
@@ -64,8 +64,10 @@ const Inputs = ({
         }}
         value={Object.values(unitValues)[1]}
         unit={units[1]}
-        label={labels[1]}
+        units={units}
         errors={errors}
+        setErrors={setErrors}
+        setUnitValues={setUnitValues}
       />
     </div>
   );
