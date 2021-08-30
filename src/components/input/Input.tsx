@@ -41,14 +41,7 @@ const Input = ({
     const hasSwappedUnits =
       (unit === units[0] && e.target.value === units[1]) ||
       (unit === units[1] && e.target.value === units[0]);
-    console.log({
-      "e.target.value": e.target.value,
-      unit,
-      "units[0]": units[0],
-      "units[1]": units[1],
-    });
 
-    console.log({ hasSwappedUnits });
     // When changing unit of 1st input.
     if (unit === units[0]) {
       updatedUnitValues = {
@@ -74,7 +67,6 @@ const Input = ({
       };
       setErrors(updatedErrors);
     }
-    console.log({ updatedUnitValues });
     setUnitValues(updatedUnitValues);
   };
 
