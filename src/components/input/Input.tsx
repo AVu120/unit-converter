@@ -9,7 +9,7 @@ import data from "../../services/data";
 import { useContext } from "react";
 import { UnitTypeContext } from "../../App";
 import { ChangeEventHandler } from "react";
-
+import { getConversionFunctions } from "../../services/unitConversion";
 interface IInputProps {
   onChange: (e: TChangeEvent) => void;
   value: number | string;
@@ -38,24 +38,42 @@ const Input = ({
   const updateUnit: ChangeEventHandler<HTMLSelectElement> = (e) => {
     let updatedUnitValues;
     let updatedErrors;
+    let updatedConversionFunctions;
     const hasSwappedUnits =
       (unit === units[0] && e.target.value === units[1]) ||
       (unit === units[1] && e.target.value === units[0]);
-
     // When changing unit of 1st input.
     if (unit === units[0]) {
+      updatedConversionFunctions = getConversionFunctions(
+        unitType,
+        e.target.value,
+        units[hasSwappedUnits ? 0 : 1]
+      );
+
+      if (hasSwappedUnits)
+        updatedConversionFunctions = [
+          updatedConversionFunctions[1],
+          updatedConversionFunctions[0],
+        ];
+
       updatedUnitValues = {
         [e.target.value]: `${Object.values(unitValues)[0]}`,
-        [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]: `${
-          Object.values(unitValues)[1]
-        }`,
+        [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]:
+          updatedConversionFunctions[hasSwappedUnits ? 1 : 0](
+            Number(Object.values(unitValues)[0])
+          ),
       };
       // When changing unit of 2nd input.
     } else {
+      updatedConversionFunctions = getConversionFunctions(
+        unitType,
+        units[hasSwappedUnits ? 1 : 0],
+        e.target.value
+      );
+
       updatedUnitValues = {
-        [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]: `${
-          Object.values(unitValues)[0]
-        }`,
+        [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]:
+          updatedConversionFunctions[1](Number(Object.values(unitValues)[1])),
         [e.target.value]: `${Object.values(unitValues)[1]}`,
       };
     }

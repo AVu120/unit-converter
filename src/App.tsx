@@ -17,6 +17,7 @@ function App() {
     [defaultUnit1]: 0,
     [defaultUnit2]: 0,
   });
+
   const [unit1, unit2] = [
     Object.keys(unitValues)[0],
     Object.keys(unitValues)[1],
@@ -30,6 +31,7 @@ function App() {
   useEffect(() => {
     setUnitValues({ [defaultUnit1]: 0, [defaultUnit2]: 0 });
     setErrors({ [defaultUnit1]: "", [defaultUnit2]: "" });
+    // eslint-disable-next-line
   }, [unitType]);
 
   return (
