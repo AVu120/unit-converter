@@ -1,16 +1,17 @@
-import styles from "./Inputs.module.scss";
-import { default as Unit1Input, default as Unit2Input } from "../input/Input";
 import { updateUnitValues } from "../../services/unitConversion";
 import {
-  TSetState,
-  TMapOfStrings,
-  TMapOfStringOrNumbers,
-  TSetErrors,
   TChangeEvent,
+  TMapOfStringOrNumbers,
+  TMapOfStrings,
+  TSetErrors,
+  TSetState,
+  TUnits,
 } from "../../types/common";
+import { default as Unit1Input, default as Unit2Input } from "../input/Input";
+import styles from "./Inputs.module.scss";
 
 interface IInputsProps {
-  units: [string, string];
+  units: TUnits;
   unitValues: TMapOfStringOrNumbers;
   setUnitValues: TSetState;
   errors: TMapOfStrings;

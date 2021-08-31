@@ -1,20 +1,21 @@
-import styles from "./Input.module.scss";
-import {
-  TMapOfStrings,
-  TChangeEvent,
-  TSetState,
-  TSetErrors,
-} from "../../types/common";
-import data from "../../services/data";
 import { useContext } from "react";
 import { UnitTypeContext } from "../../App";
-import { ChangeEventHandler } from "react";
-import { getConversionFunctions } from "../../services/unitConversion";
+import data from "../../services/data";
+import { updateUnit } from "../../services/unitConversion";
+import {
+  TChangeEvent,
+  TMapOfStrings,
+  TSetErrors,
+  TSetState,
+  TUnit,
+  TUnits,
+} from "../../types/common";
+import styles from "./Input.module.scss";
 interface IInputProps {
   onChange: (e: TChangeEvent) => void;
   value: number | string;
-  unit: string;
-  units: [string, string];
+  unit: TUnit;
+  units: TUnits;
   errors: TMapOfStrings;
   setErrors: TSetErrors;
   setUnitValues: TSetState;
@@ -35,59 +36,6 @@ const Input = ({
   const errorMessage = !hasValidInput && currentErrors[0][1];
   const unitOptions = Object.entries(data[unitType].unitsToLabels);
 
-  const updateUnit: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    let updatedUnitValues;
-    let updatedErrors;
-    let updatedConversionFunctions;
-    const hasSwappedUnits =
-      (unit === units[0] && e.target.value === units[1]) ||
-      (unit === units[1] && e.target.value === units[0]);
-    // When changing unit of 1st input.
-    if (unit === units[0]) {
-      updatedConversionFunctions = getConversionFunctions(
-        unitType,
-        e.target.value,
-        units[hasSwappedUnits ? 0 : 1]
-      );
-
-      if (hasSwappedUnits)
-        updatedConversionFunctions = [
-          updatedConversionFunctions[1],
-          updatedConversionFunctions[0],
-        ];
-
-      updatedUnitValues = {
-        [e.target.value]: `${Object.values(unitValues)[0]}`,
-        [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]:
-          updatedConversionFunctions[hasSwappedUnits ? 1 : 0](
-            Number(Object.values(unitValues)[0])
-          ),
-      };
-      // When changing unit of 2nd input.
-    } else {
-      updatedConversionFunctions = getConversionFunctions(
-        unitType,
-        units[hasSwappedUnits ? 1 : 0],
-        e.target.value
-      );
-
-      updatedUnitValues = {
-        [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]:
-          updatedConversionFunctions[1](Number(Object.values(unitValues)[1])),
-        [e.target.value]: `${Object.values(unitValues)[1]}`,
-      };
-    }
-
-    if (hasSwappedUnits && Object.values(errors).some((error) => error)) {
-      updatedErrors = {
-        [Object.keys(errors)[0]]: Object.values(errors)[1],
-        [Object.keys(errors)[1]]: Object.values(errors)[0],
-      };
-      setErrors(updatedErrors);
-    }
-    setUnitValues(updatedUnitValues);
-  };
-
   return (
     <div className={styles.input_container}>
       <input
@@ -97,7 +45,18 @@ const Input = ({
       />
       <span className={styles.error_message}>{errorMessage}</span>
       <select
-        onChange={updateUnit}
+        onChange={(e) =>
+          updateUnit({
+            e,
+            unit,
+            units,
+            unitType,
+            unitValues,
+            setUnitValues,
+            errors,
+            setErrors,
+          })
+        }
         className={styles.select}
         value={`${data[unitType].unitsToLabels[unit]}`}
       >

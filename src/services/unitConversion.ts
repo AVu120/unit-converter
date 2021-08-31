@@ -1,16 +1,19 @@
 import {
-  TSetState,
-  TSetErrors,
-  TMapOfStrings,
   TChangeEvent,
   TConversionFunction,
+  TMapOfStrings,
+  TSetErrors,
+  TSetState,
+  TUnit,
+  TUnits,
+  TUnitType,
 } from "../types/common";
 import data from "./data";
 
 interface IUpdateUnitValuesParams {
   e: TChangeEvent;
-  unit: string;
-  units: [string, string];
+  unit: TUnit;
+  units: TUnits;
   leftToRightConversion: TConversionFunction;
   rightToLeftConversion: TConversionFunction;
   setState: TSetState;
@@ -95,9 +98,9 @@ export const updateUnitValues = ({
 };
 
 export const getConversionFunctions = (
-  unitType: string,
-  unit1: string,
-  unit2: string
+  unitType: TUnitType,
+  unit1: TUnit,
+  unit2: TUnit
 ): [TConversionFunction, TConversionFunction] => {
   let conversionFunctions;
   const unit1Keys = Object.keys(data[unitType].conversionFunctions);
@@ -118,4 +121,77 @@ export const getConversionFunctions = (
     }
   }
   return conversionFunctions;
+};
+
+interface IUpdateUnitParams {
+  e: any;
+  unitType: TUnitType;
+  unit: TUnit;
+  units: TUnits;
+  unitValues: TMapOfStrings;
+  setUnitValues: TSetState;
+  errors: TMapOfStrings;
+  setErrors: TSetErrors;
+}
+
+export const updateUnit: any = ({
+  e,
+  unit,
+  units,
+  unitType,
+  unitValues,
+  setUnitValues,
+  errors,
+  setErrors,
+}: IUpdateUnitParams) => {
+  let updatedUnitValues;
+  let updatedErrors;
+  let updatedConversionFunctions;
+  const hasSwappedUnits =
+    (unit === units[0] && e.target.value === units[1]) ||
+    (unit === units[1] && e.target.value === units[0]);
+  // When changing unit of 1st input.
+  if (unit === units[0]) {
+    updatedConversionFunctions = getConversionFunctions(
+      unitType,
+      e.target.value,
+      units[hasSwappedUnits ? 0 : 1]
+    );
+
+    if (hasSwappedUnits)
+      updatedConversionFunctions = [
+        updatedConversionFunctions[1],
+        updatedConversionFunctions[0],
+      ];
+
+    updatedUnitValues = {
+      [e.target.value]: `${Object.values(unitValues)[0]}`,
+      [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]:
+        updatedConversionFunctions[hasSwappedUnits ? 1 : 0](
+          Number(Object.values(unitValues)[0])
+        ),
+    };
+    // When changing unit of 2nd input.
+  } else {
+    updatedConversionFunctions = getConversionFunctions(
+      unitType,
+      units[hasSwappedUnits ? 1 : 0],
+      e.target.value
+    );
+
+    updatedUnitValues = {
+      [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]:
+        updatedConversionFunctions[1](Number(Object.values(unitValues)[1])),
+      [e.target.value]: `${Object.values(unitValues)[1]}`,
+    };
+  }
+
+  if (hasSwappedUnits && Object.values(errors).some((error) => error)) {
+    updatedErrors = {
+      [Object.keys(errors)[0]]: Object.values(errors)[1],
+      [Object.keys(errors)[1]]: Object.values(errors)[0],
+    };
+    setErrors(updatedErrors);
+  }
+  setUnitValues(updatedUnitValues);
 };

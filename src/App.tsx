@@ -1,9 +1,9 @@
-import { useState, useEffect, createContext } from "react";
-import styles from "./App.module.scss";
-import { IMap } from "./types/common";
-import Inputs from "./components/inputs/Inputs";
+import { createContext, useEffect, useState } from "react";
 import data from "../src/services/data";
+import styles from "./App.module.scss";
+import Inputs from "./components/inputs/Inputs";
 import { getConversionFunctions } from "./services/unitConversion";
+import { IMap } from "./types/common";
 
 export const UnitTypeContext = createContext<any>(null);
 
