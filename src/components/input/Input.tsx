@@ -39,7 +39,7 @@ const Input = ({
   return (
     <div className={styles.input_container}>
       <input
-        type="number"
+        data-testid="unit-input"
         onChange={onChange}
         value={value}
         className={`${styles.input} ${!hasValidInput && styles.input_error}`}

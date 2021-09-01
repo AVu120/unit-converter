@@ -18,7 +18,7 @@ describe("App renders correctly", () => {
   });
 
   test("renders text inputs", () => {
-    const inputElements = screen.getAllByRole("spinbutton");
+    const inputElements = screen.getAllByTestId("unit-input");
     expect(inputElements.length).toBe(2);
     expect(inputElements[0]).toHaveDisplayValue("0");
     expect(inputElements[1]).toHaveDisplayValue("0");
@@ -63,7 +63,7 @@ describe("All inputs work", () => {
   });
 
   test("unit inputs convert correctly", async () => {
-    const inputElements = screen.getAllByRole("spinbutton");
+    const inputElements = screen.getAllByTestId("unit-input");
     const [inputElement1, inputElement2] = inputElements;
     fireEvent.change(inputElement1, { target: { value: "5" } });
     await waitFor(() => {
