@@ -3,7 +3,7 @@ const data: any = {
     unitsToLabels: {
       m: "Meter",
       cm: "Centimeter",
-      mm: "MilliMeter",
+      mm: "Millimeter",
       μm: "Micrometer",
     },
     conversionFunctions: {

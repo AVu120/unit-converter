@@ -39,12 +39,14 @@ const Input = ({
   return (
     <div className={styles.input_container}>
       <input
+        type="number"
         onChange={onChange}
         value={value}
         className={`${styles.input} ${!hasValidInput && styles.input_error}`}
       />
       <span className={styles.error_message}>{errorMessage}</span>
       <select
+        data-testid="unit-selector"
         onChange={(e) =>
           updateUnit({
             e,

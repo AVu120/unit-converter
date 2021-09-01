@@ -40,6 +40,7 @@ function App() {
         <div className={styles.unit_converter_container}>
           <h1 className={styles.title}>Unit Converter</h1>
           <select
+            data-testid="unit-type-selector"
             onChange={(e) => {
               setUnitType(e.target.value);
             }}
@@ -59,7 +60,7 @@ function App() {
             setErrors={setErrors}
             conversionFunctions={getConversionFunctions(unitType, unit1, unit2)}
           />
-          <div>
+          <div data-testid="formula">
             <span className={styles.formula_logo}>Formula</span> multiply the
             length value by 100
           </div>
