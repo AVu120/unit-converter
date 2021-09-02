@@ -30,10 +30,11 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
+    "testOnly": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "lint": "eslint . --max-warnings 0",
-    "preCommit": "yarn lint && yarn test"
+    "preCommit": "yarn lint && yarn testOnly"
   },
   "eslintConfig": {
     "extends": [
