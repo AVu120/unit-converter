@@ -59,8 +59,8 @@ const data: any = {
           "divide the length value by 10",
         ],
         μm: [
-          "multiply the length value by 100000",
-          "divide the length value by 100000",
+          "multiply the length value by 10000",
+          "divide the length value by 10000",
         ],
       },
       mm: {
