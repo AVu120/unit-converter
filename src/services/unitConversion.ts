@@ -173,6 +173,21 @@ export const updateUnit: any = ({
   const hasSwappedUnits =
     (unit === units[0] && e.target.value === units[1]) ||
     (unit === units[1] && e.target.value === units[0]);
+  const hasError = Object.values(errors).some((error) => error);
+
+  if (hasError) {
+    updatedErrors = {
+      [Object.keys(errors)[0]]: "",
+      [Object.keys(errors)[1]]: "",
+    };
+    updatedUnitValues = {
+      [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]: 0,
+      [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]: 0,
+    };
+    setErrors(updatedErrors);
+    return setUnitValues(updatedUnitValues);
+  }
+
   // When changing unit of 1st input.
   if (unit === units[0]) {
     updatedConversionFunctions = getConversionFunctions(
@@ -209,12 +224,5 @@ export const updateUnit: any = ({
     };
   }
 
-  if (hasSwappedUnits && Object.values(errors).some((error) => error)) {
-    updatedErrors = {
-      [Object.keys(errors)[0]]: Object.values(errors)[1],
-      [Object.keys(errors)[1]]: Object.values(errors)[0],
-    };
-    setErrors(updatedErrors);
-  }
   setUnitValues(updatedUnitValues);
 };
