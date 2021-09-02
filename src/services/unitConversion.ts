@@ -170,29 +170,37 @@ export const updateUnit: any = ({
   let updatedUnitValues;
   let updatedErrors;
   let updatedConversionFunctions;
+  const newUnit = e.target.value;
+  const isUpdatingUnit1 = unit === units[0];
+  const isUpdatingUnit2 = unit === units[1];
+
   const hasSwappedUnits =
-    (unit === units[0] && e.target.value === units[1]) ||
-    (unit === units[1] && e.target.value === units[0]);
+    (isUpdatingUnit1 && newUnit === units[1]) ||
+    (isUpdatingUnit2 && newUnit === units[0]);
   const hasError = Object.values(errors).some((error) => error);
 
   if (hasError) {
     updatedErrors = {
-      [Object.keys(errors)[0]]: "",
-      [Object.keys(errors)[1]]: "",
+      [isUpdatingUnit1 ? newUnit : Object.keys(errors)[0]]: "",
+      [isUpdatingUnit2 ? newUnit : Object.keys(errors)[1]]: "",
     };
     updatedUnitValues = {
-      [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]: 0,
-      [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]: 0,
+      [isUpdatingUnit1
+        ? newUnit
+        : Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]: 0,
+      [isUpdatingUnit2
+        ? newUnit
+        : Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]: 0,
     };
     setErrors(updatedErrors);
     return setUnitValues(updatedUnitValues);
   }
 
   // When changing unit of 1st input.
-  if (unit === units[0]) {
+  if (isUpdatingUnit1) {
     updatedConversionFunctions = getConversionFunctions(
       unitType,
-      e.target.value,
+      newUnit,
       units[hasSwappedUnits ? 0 : 1]
     );
 
@@ -203,7 +211,7 @@ export const updateUnit: any = ({
       ];
 
     updatedUnitValues = {
-      [e.target.value]: `${Object.values(unitValues)[0]}`,
+      [newUnit]: `${Object.values(unitValues)[0]}`,
       [Object.keys(unitValues)[hasSwappedUnits ? 0 : 1]]:
         updatedConversionFunctions[hasSwappedUnits ? 1 : 0](
           Number(Object.values(unitValues)[0])
@@ -214,13 +222,13 @@ export const updateUnit: any = ({
     updatedConversionFunctions = getConversionFunctions(
       unitType,
       units[hasSwappedUnits ? 1 : 0],
-      e.target.value
+      newUnit
     );
 
     updatedUnitValues = {
       [Object.keys(unitValues)[hasSwappedUnits ? 1 : 0]]:
         updatedConversionFunctions[1](Number(Object.values(unitValues)[1])),
-      [e.target.value]: `${Object.values(unitValues)[1]}`,
+      [newUnit]: `${Object.values(unitValues)[1]}`,
     };
   }
 

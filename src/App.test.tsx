@@ -337,8 +337,22 @@ describe("Regression Test Suite", () => {
 
       fireEvent.change(unitSelector1, { target: { value: "mm" } });
       await waitFor(() => {
-        expect(inputElement1).toHaveDisplayValue("0");
-        expect(inputElement2).toHaveDisplayValue("0");
+        expect(inputElement1).toHaveValue("0");
+        expect(unitSelector1).toHaveDisplayValue("Millimeter");
+        expect(inputElement2).toHaveValue("0");
+        expect(unitSelector2).toHaveDisplayValue("Centimeter");
+        expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
+      });
+
+      fireEvent.change(inputElement2, { target: { value: "*" } });
+      await screen.findByText(errorRegex);
+
+      fireEvent.change(unitSelector2, { target: { value: "mm" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("0");
+        expect(unitSelector1).toHaveDisplayValue("Centimeter");
+        expect(inputElement2).toHaveValue("0");
+        expect(unitSelector2).toHaveDisplayValue("Millimeter");
         expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
       });
 
@@ -347,8 +361,8 @@ describe("Regression Test Suite", () => {
 
       fireEvent.change(unitTypeSelector, { target: { value: "Mass" } });
       await waitFor(() => {
-        expect(inputElement1).toHaveDisplayValue("0");
-        expect(inputElement2).toHaveDisplayValue("0");
+        expect(inputElement1).toHaveValue("0");
+        expect(inputElement2).toHaveValue("0");
         expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
       });
     });
