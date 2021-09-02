@@ -38,6 +38,38 @@ const data: any = {
         ],
       },
     },
+    formulas: {
+      m: {
+        cm: [
+          "multiply the length value by 100",
+          "divide the length value by 100",
+        ],
+        mm: [
+          "multiply the length value by 1000",
+          "divide the length value by 1000",
+        ],
+        μm: [
+          "multiply the length value by 1e+6",
+          "divide the length value by 1e+6",
+        ],
+      },
+      cm: {
+        mm: [
+          "multiply the length value by 10",
+          "divide the length value by 10",
+        ],
+        μm: [
+          "multiply the length value by 100000",
+          "divide the length value by 100000",
+        ],
+      },
+      mm: {
+        μm: [
+          "multiply the length value by 1000",
+          "divide the length value by 1000",
+        ],
+      },
+    },
   },
   Mass: {
     unitsToLabels: {
@@ -50,6 +82,11 @@ const data: any = {
           (num: number): number => num * 1000,
           (num: number): number => num / 1000,
         ],
+      },
+    },
+    formulas: {
+      kg: {
+        g: ["multiply the mass value by 1000", "divide the mass value by 1000"],
       },
     },
   },

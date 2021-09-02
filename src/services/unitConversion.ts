@@ -123,6 +123,29 @@ export const getConversionFunctions = (
   return conversionFunctions;
 };
 
+export const getFormula = (
+  unitType: TUnitType,
+  unit1: TUnit,
+  unit2: TUnit
+): string => {
+  let formula;
+  const unit1Keys = Object.keys(data[unitType].formulas);
+  for (let i = 0; i < unit1Keys.length; i++) {
+    let unit1Key = unit1Keys[i];
+    let matchingUnit2Keys = Object.keys(data[unitType].formulas[unit1Key]);
+
+    for (let j = 0; j < matchingUnit2Keys.length; j++) {
+      let matchingUnit2Key = matchingUnit2Keys[j];
+      if (unit1 === unit1Key && unit2 === matchingUnit2Key)
+        formula = data[unitType].formulas[unit1][unit2][0];
+      else if (unit1 === matchingUnit2Key && unit2 === unit1Key) {
+        formula = data[unitType].formulas[unit2][unit1][1];
+      }
+    }
+  }
+  return formula;
+};
+
 interface IUpdateUnitParams {
   e: any;
   unitType: TUnitType;

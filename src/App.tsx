@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import data from "../src/services/data";
 import styles from "./App.module.scss";
 import Inputs from "./components/inputs/Inputs";
-import { getConversionFunctions } from "./services/unitConversion";
+import { getConversionFunctions, getFormula } from "./services/unitConversion";
 import { IMap } from "./types/common";
 
 export const UnitTypeContext = createContext<any>(null);
@@ -61,8 +61,8 @@ function App() {
             conversionFunctions={getConversionFunctions(unitType, unit1, unit2)}
           />
           <div data-testid="formula">
-            <span className={styles.formula_logo}>Formula</span> multiply the
-            length value by 100
+            <span className={styles.formula_logo}>Formula</span>{" "}
+            {getFormula(unitType, unit1, unit2)}
           </div>
         </div>
       </div>
