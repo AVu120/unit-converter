@@ -92,6 +92,12 @@ describe("Regression Test Suite", () => {
         );
       });
 
+      fireEvent.change(inputElement2, { target: { value: "5.5" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("0.0055");
+        expect(inputElement2).toHaveValue("5.5");
+      });
+
       fireEvent.change(inputElement1, { target: { value: "100" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("100");
@@ -109,6 +115,19 @@ describe("Regression Test Suite", () => {
           /Formula multiply the length value by 10/i
         );
       });
+
+      fireEvent.change(inputElement2, { target: { value: "6.789" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("0.6789");
+        expect(inputElement2).toHaveValue("6.789");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "100" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("100");
+        expect(inputElement2).toHaveValue("1000");
+      });
+
       fireEvent.change(unitSelector1, { target: { value: "mm" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("100");
@@ -118,6 +137,18 @@ describe("Regression Test Suite", () => {
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /Formula divide the length value by 10/i
         );
+      });
+
+      fireEvent.change(inputElement2, { target: { value: "30.02" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("300.2");
+        expect(inputElement2).toHaveValue("30.02");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "100" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("100");
+        expect(inputElement2).toHaveValue("10");
       });
 
       fireEvent.change(unitSelector1, { target: { value: "μm" } });
@@ -131,6 +162,18 @@ describe("Regression Test Suite", () => {
         );
       });
 
+      fireEvent.change(inputElement2, { target: { value: "0.02" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("200");
+        expect(inputElement2).toHaveValue("0.02");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "100" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("100");
+        expect(inputElement2).toHaveValue("0.01");
+      });
+
       fireEvent.change(unitSelector2, { target: { value: "m" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("10000");
@@ -140,6 +183,18 @@ describe("Regression Test Suite", () => {
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /Formula divide the length value by 1e\+6/i
         );
+      });
+
+      fireEvent.change(inputElement2, { target: { value: "0.00342" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("3420");
+        expect(inputElement2).toHaveValue("0.00342");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "10000" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("10000");
+        expect(inputElement2).toHaveValue("0.01");
       });
 
       fireEvent.change(unitSelector2, { target: { value: "cm" } });
@@ -153,6 +208,18 @@ describe("Regression Test Suite", () => {
         );
       });
 
+      fireEvent.change(inputElement2, { target: { value: "0.9" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("9000");
+        expect(inputElement2).toHaveValue("0.9");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "100" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("100");
+        expect(inputElement2).toHaveValue("0.01");
+      });
+
       fireEvent.change(unitSelector2, { target: { value: "mm" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("10");
@@ -164,6 +231,18 @@ describe("Regression Test Suite", () => {
         );
       });
 
+      fireEvent.change(inputElement2, { target: { value: "3.243" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("3243");
+        expect(inputElement2).toHaveValue("3.243");
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "10" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("10");
+        expect(inputElement2).toHaveValue("0.01");
+      });
+
       fireEvent.change(unitSelector2, { target: { value: "μm" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("0.00001");
@@ -173,6 +252,12 @@ describe("Regression Test Suite", () => {
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /multiply the length value by 1000/i
         );
+      });
+
+      fireEvent.change(inputElement1, { target: { value: "4.35" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("4.35");
+        expect(inputElement2).toHaveValue("4350");
       });
 
       fireEvent.change(unitTypeSelector, {
@@ -192,17 +277,13 @@ describe("Regression Test Suite", () => {
       fireEvent.change(inputElement1, { target: { value: "1" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("1");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
         expect(inputElement2).toHaveValue("1000");
-        expect(unitSelector2).toHaveDisplayValue("Gram");
       });
 
       fireEvent.change(inputElement2, { target: { value: "523" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("0.523");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
         expect(inputElement2).toHaveValue("523");
-        expect(unitSelector2).toHaveDisplayValue("Gram");
       });
 
       fireEvent.change(unitSelector2, { target: { value: "kg" } });
@@ -219,24 +300,20 @@ describe("Regression Test Suite", () => {
       fireEvent.change(inputElement2, { target: { value: "44" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("44000");
-        expect(unitSelector1).toHaveDisplayValue("Gram");
         expect(inputElement2).toHaveValue("44");
-        expect(unitSelector2).toHaveDisplayValue("Kilogram");
       });
 
       fireEvent.change(inputElement1, { target: { value: "3.098" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("3.098");
-        expect(unitSelector1).toHaveDisplayValue("Gram");
         expect(inputElement2).toHaveValue("0.003098");
-        expect(unitSelector2).toHaveDisplayValue("Kilogram");
       });
     });
   });
 
   describe("Error handling works correctly", () => {
     const errorRegex = /Error: only valid numbers allowed./i;
-    test("only show error message when user types anything but valid number.", async () => {
+    test("only show error message when user types anything but valid number", async () => {
       fireEvent.change(inputElement1, { target: { value: "a" } });
       await screen.findByText(errorRegex);
 
