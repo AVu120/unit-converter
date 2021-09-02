@@ -60,16 +60,13 @@ const Input = ({
           })
         }
         className={styles.select}
-        value={`${data[unitType].unitsToLabels[unit]}`}
+        value={unit}
       >
-        <option style={{ display: "none" }}>
-          {`${data[unitType].unitsToLabels[unit]}`}
-        </option>
-        {unitOptions.map((option) => (
+        {unitOptions.map(([dataUnit, dataLabel]) => (
           <option
-            key={`${unitType}_${option[1]}_option`}
-            value={option[0]}
-          >{`${option[1]}`}</option>
+            key={`${unitType}_${dataLabel}_option`}
+            value={dataUnit}
+          >{`${dataLabel}`}</option>
         ))}
       </select>
     </div>
