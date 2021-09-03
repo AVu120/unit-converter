@@ -57,9 +57,9 @@ describe("Regression Test Suite", () => {
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
+        expect(unitSelector1).toHaveDisplayValue("Tonne");
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Gram");
+        expect(unitSelector2).toHaveDisplayValue("Kilogram");
       });
     });
 
@@ -266,9 +266,9 @@ describe("Regression Test Suite", () => {
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
+        expect(unitSelector1).toHaveDisplayValue("Tonne");
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Gram");
+        expect(unitSelector2).toHaveDisplayValue("Kilogram");
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /Formula multiply the mass value by 1000/i
         );
@@ -286,12 +286,12 @@ describe("Regression Test Suite", () => {
         expect(inputElement2).toHaveValue("523");
       });
 
-      fireEvent.change(unitSelector2, { target: { value: "kg" } });
+      fireEvent.change(unitSelector2, { target: { value: "t" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("523000");
-        expect(unitSelector1).toHaveDisplayValue("Gram");
+        expect(unitSelector1).toHaveDisplayValue("Kilogram");
         expect(inputElement2).toHaveValue("523");
-        expect(unitSelector2).toHaveDisplayValue("Kilogram");
+        expect(unitSelector2).toHaveDisplayValue("Tonne");
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /Formula divide the mass value by 1000/i
         );
@@ -387,9 +387,9 @@ describe("Regression Test Suite", () => {
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
+        expect(unitSelector1).toHaveDisplayValue("Tonne");
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Gram");
+        expect(unitSelector2).toHaveDisplayValue("Kilogram");
         expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
       });
 

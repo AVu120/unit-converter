@@ -73,10 +73,21 @@ const data: any = {
   },
   Mass: {
     unitsToLabels: {
+      t: "Tonne",
       kg: "Kilogram",
       g: "Gram",
     },
     conversionFunctions: {
+      t: {
+        kg: [
+          (num: number): number => num * 1000,
+          (num: number): number => num / 1000,
+        ],
+        g: [
+          (num: number): number => num * 1000000,
+          (num: number): number => num / 1000000,
+        ],
+      },
       kg: {
         g: [
           (num: number): number => num * 1000,
@@ -85,6 +96,13 @@ const data: any = {
       },
     },
     formulas: {
+      t: {
+        kg: [
+          "multiply the mass value by 1000",
+          "divide the mass value by 1000",
+        ],
+        g: ["multiply the mass value by 1e+6", "divide the mass value by 1e+6"],
+      },
       kg: {
         g: ["multiply the mass value by 1000", "divide the mass value by 1000"],
       },
