@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UnitTypeContext } from "../../App";
-import data from "../../services/data";
+import { data } from "../../services/data";
 import { updateUnit } from "../../services/unitConversion";
 import {
   TChangeEvent,

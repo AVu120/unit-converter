@@ -8,7 +8,7 @@ import {
   TUnits,
   TUnitType,
 } from "../types/common";
-import data from "./data";
+import { data } from "./data";
 
 interface IUpdateUnitValuesParams {
   e: TChangeEvent;

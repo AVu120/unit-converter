@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { data, defaultUnitType } from "./services/data";
 import App from "./App";
 
 describe("Regression Test Suite", () => {
@@ -8,6 +9,15 @@ describe("Regression Test Suite", () => {
     inputElement2: TDomElement,
     unitSelector1: TDomElement,
     unitSelector2: TDomElement;
+  const [defaultUnit1, defaultUnit2] = [
+    Object.keys(data[defaultUnitType].unitsToLabels)[0],
+    Object.keys(data[defaultUnitType].unitsToLabels)[1],
+  ];
+  const [defaultUnit1Label, defaultUnit2Label] = Object.values(
+    data[defaultUnitType].unitsToLabels
+  ).slice(0, 2);
+  const defaultFormula =
+    data[defaultUnitType].formulas[defaultUnit1][defaultUnit2][0];
 
   beforeEach(() => {
     render(<App />);
@@ -24,9 +34,9 @@ describe("Regression Test Suite", () => {
       expect(titleElement).toBeInTheDocument();
     });
     test("renders unit selectors", () => {
-      expect(unitTypeSelector).toHaveDisplayValue("Length");
-      expect(unitSelector1).toHaveDisplayValue("Meter");
-      expect(unitSelector2).toHaveDisplayValue("Centimeter");
+      expect(unitTypeSelector).toHaveDisplayValue(defaultUnitType);
+      expect(unitSelector1).toHaveDisplayValue(`${defaultUnit1Label}`);
+      expect(unitSelector2).toHaveDisplayValue(`${defaultUnit2Label}`);
     });
 
     test("renders text inputs", () => {
@@ -36,7 +46,7 @@ describe("Regression Test Suite", () => {
 
     test("renders formula", () => {
       expect(screen.getByTestId("formula")).toHaveTextContent(
-        /Formula multiply the length value by 100/i
+        new RegExp(`Formula ${defaultFormula}`, "i")
       );
     });
   });
@@ -44,6 +54,7 @@ describe("Regression Test Suite", () => {
   describe("All inputs work", () => {
     test("unit selector works", async () => {
       fireEvent.change(unitSelector1, { target: { value: "mm" } });
+      fireEvent.change(unitSelector2, { target: { value: "cm" } });
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Length");
         expect(inputElement1).toHaveValue("0");
@@ -54,27 +65,32 @@ describe("Regression Test Suite", () => {
     });
     test("Unit type selector works", async () => {
       fireEvent.change(unitTypeSelector, { target: { value: "Mass" } });
+      const [defaultMassUnit1Label, defaultMassUnit2Label] = Object.values(
+        data["Mass"].unitsToLabels
+      ).slice(0, 2);
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Tonne");
+        expect(unitSelector1).toHaveDisplayValue(`${defaultMassUnit1Label}`);
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Kilogram");
+        expect(unitSelector2).toHaveDisplayValue(`${defaultMassUnit2Label}`);
       });
     });
 
     test("units swap correctly", async () => {
-      fireEvent.change(unitSelector1, { target: { value: "cm" } });
+      fireEvent.change(unitSelector1, { target: { value: defaultUnit2 } });
       await waitFor(() => {
-        expect(unitTypeSelector).toHaveDisplayValue("Length");
+        expect(unitTypeSelector).toHaveDisplayValue(defaultUnitType);
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Centimeter");
+        expect(unitSelector1).toHaveDisplayValue(`${defaultUnit2Label}`);
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Meter");
+        expect(unitSelector2).toHaveDisplayValue(`${defaultUnit1Label}`);
       });
     });
 
     test("unit inputs convert and matching formula displays correctly", async () => {
+      fireEvent.change(unitSelector1, { target: { value: "m" } });
+      fireEvent.change(unitSelector2, { target: { value: "cm" } });
       fireEvent.change(inputElement1, { target: { value: "5" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("5");
@@ -260,17 +276,27 @@ describe("Regression Test Suite", () => {
         expect(inputElement2).toHaveValue("4350");
       });
 
+      const targetUnitType = "Mass";
+      const targetUnit1 = "t";
+      const targetUnit2 = "kg";
+      const targetUnit1Label = data[targetUnitType].unitsToLabels[targetUnit1];
+      const targetUnit2Label = data[targetUnitType].unitsToLabels[targetUnit2];
       fireEvent.change(unitTypeSelector, {
-        target: { value: "Mass" },
+        target: { value: targetUnitType },
       });
+      fireEvent.change(unitSelector1, { target: { value: targetUnit1 } });
+      fireEvent.change(unitSelector2, { target: { value: targetUnit2 } });
       await waitFor(() => {
-        expect(unitTypeSelector).toHaveDisplayValue("Mass");
+        expect(unitTypeSelector).toHaveDisplayValue(targetUnitType);
         expect(inputElement1).toHaveValue("0");
-        expect(unitSelector1).toHaveDisplayValue("Tonne");
+        expect(unitSelector1).toHaveDisplayValue(targetUnit1Label);
         expect(inputElement2).toHaveValue("0");
-        expect(unitSelector2).toHaveDisplayValue("Kilogram");
+        expect(unitSelector2).toHaveDisplayValue(targetUnit2Label);
         expect(screen.getByTestId("formula")).toHaveTextContent(
-          /Formula multiply the mass value by 1000/i
+          new RegExp(
+            `Formula ${data[targetUnitType].formulas[targetUnit1][targetUnit2][0]}`,
+            "i"
+          )
         );
       });
 
@@ -289,9 +315,9 @@ describe("Regression Test Suite", () => {
       fireEvent.change(unitSelector2, { target: { value: "t" } });
       await waitFor(() => {
         expect(inputElement1).toHaveValue("523000");
-        expect(unitSelector1).toHaveDisplayValue("Kilogram");
+        expect(unitSelector1).toHaveDisplayValue(targetUnit2Label);
         expect(inputElement2).toHaveValue("523");
-        expect(unitSelector2).toHaveDisplayValue("Tonne");
+        expect(unitSelector2).toHaveDisplayValue(targetUnit1Label);
         expect(screen.getByTestId("formula")).toHaveTextContent(
           /Formula divide the mass value by 1000/i
         );
@@ -314,6 +340,9 @@ describe("Regression Test Suite", () => {
   describe("Error handling works correctly", () => {
     const errorRegex = /Error: only valid numbers allowed./i;
     test("only show error message when user types anything but valid number", async () => {
+      fireEvent.change(unitSelector1, { target: { value: "m" } });
+      fireEvent.change(unitSelector2, { target: { value: "cm" } });
+
       fireEvent.change(inputElement1, { target: { value: "a" } });
       await screen.findByText(errorRegex);
 
@@ -348,6 +377,8 @@ describe("Regression Test Suite", () => {
       await screen.findByText(errorRegex);
 
       fireEvent.change(unitSelector1, { target: { value: "mm" } });
+      fireEvent.change(unitSelector2, { target: { value: "cm" } });
+
       await waitFor(() => {
         expect(inputElement1).toHaveValue("0");
         expect(unitSelector1).toHaveDisplayValue("Millimeter");
@@ -384,6 +415,9 @@ describe("Regression Test Suite", () => {
       await screen.findByText(errorRegex);
 
       fireEvent.change(unitTypeSelector, { target: { value: "Mass" } });
+      fireEvent.change(unitSelector1, { target: { value: "t" } });
+      fireEvent.change(unitSelector2, { target: { value: "kg" } });
+
       await waitFor(() => {
         expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");

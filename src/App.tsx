@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import data from "../src/services/data";
+import { data, defaultUnitType } from "../src/services/data";
 import styles from "./App.module.scss";
 import Inputs from "./components/inputs/Inputs";
 import { getConversionFunctions, getFormula } from "./services/unitConversion";
@@ -8,7 +8,7 @@ import { IMap } from "./types/common";
 export const UnitTypeContext = createContext<any>(null);
 
 function App() {
-  const [unitType, setUnitType] = useState("Length");
+  const [unitType, setUnitType] = useState(defaultUnitType);
   const [defaultUnit1, defaultUnit2] = [
     Object.keys(data[unitType].unitsToLabels)[0],
     Object.keys(data[unitType].unitsToLabels)[1],

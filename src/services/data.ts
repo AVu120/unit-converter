@@ -1,12 +1,33 @@
-const data: any = {
+export const defaultUnitType = "Length";
+
+export const data: any = {
   Length: {
     unitsToLabels: {
+      km: "Kilometer",
       m: "Meter",
       cm: "Centimeter",
       mm: "Millimeter",
       μm: "Micrometer",
     },
     conversionFunctions: {
+      km: {
+        m: [
+          (num: number): number => num * 1000,
+          (num: number): number => num / 1000,
+        ],
+        cm: [
+          (num: number): number => num * 100000,
+          (num: number): number => num / 100000,
+        ],
+        mm: [
+          (num: number): number => num * 1000000,
+          (num: number): number => num / 1000000,
+        ],
+        μm: [
+          (num: number): number => num * 1000000000,
+          (num: number): number => num / 1000000000,
+        ],
+      },
       m: {
         cm: [
           (num: number): number => num * 100,
@@ -39,6 +60,24 @@ const data: any = {
       },
     },
     formulas: {
+      km: {
+        m: [
+          "multiply the length value by 1000",
+          "divide the length value by 1000",
+        ],
+        cm: [
+          "multiply the length value by 100000",
+          "divide the length value by 100000",
+        ],
+        mm: [
+          "multiply the length value by 1e+6",
+          "divide the length value by 1e+6",
+        ],
+        μm: [
+          "multiply the length value by 1e+9",
+          "divide the length value by 1e+9",
+        ],
+      },
       m: {
         cm: [
           "multiply the length value by 100",
@@ -109,5 +148,3 @@ const data: any = {
     },
   },
 };
-
-export default data;
