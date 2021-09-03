@@ -356,13 +356,28 @@ describe("Regression Test Suite", () => {
         expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
       });
 
+      fireEvent.change(inputElement1, { target: { value: "1.5" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("1.5");
+        expect(inputElement2).toHaveValue("15");
+      });
+
+      fireEvent.change(inputElement2, { target: { value: "32" } });
+      await waitFor(() => {
+        expect(inputElement1).toHaveValue("3.2");
+        expect(inputElement2).toHaveValue("32");
+      });
+
       fireEvent.change(inputElement1, { target: { value: "^" } });
       await screen.findByText(errorRegex);
 
       fireEvent.change(unitTypeSelector, { target: { value: "Mass" } });
       await waitFor(() => {
+        expect(unitTypeSelector).toHaveDisplayValue("Mass");
         expect(inputElement1).toHaveValue("0");
+        expect(unitSelector1).toHaveDisplayValue("Kilogram");
         expect(inputElement2).toHaveValue("0");
+        expect(unitSelector2).toHaveDisplayValue("Gram");
         expect(screen.queryByText(errorRegex)).not.toBeInTheDocument();
       });
     });
