@@ -102,8 +102,9 @@ export const getConversionFunctions = (
   unit1: TUnit,
   unit2: TUnit
 ): [TConversionFunction, TConversionFunction] => {
-  let conversionFunctions;
   const unit1Keys = Object.keys(data[unitType].conversionFunctions);
+  // Traditional for loop was chosen (over alternatives like forEach) so that the function is exited on
+  // execution of first return statement. This significantly improves performance as the entire data won't be parsed (most of the time).
   for (let i = 0; i < unit1Keys.length; i++) {
     let unit1Key = unit1Keys[i];
     let matchingUnit2Keys = Object.keys(
@@ -113,14 +114,17 @@ export const getConversionFunctions = (
     for (let j = 0; j < matchingUnit2Keys.length; j++) {
       let matchingUnit2Key = matchingUnit2Keys[j];
       if (unit1 === unit1Key && unit2 === matchingUnit2Key)
-        conversionFunctions = data[unitType].conversionFunctions[unit1][unit2];
+        return data[unitType].conversionFunctions[unit1][unit2];
       else if (unit1 === matchingUnit2Key && unit2 === unit1Key) {
         const result = data[unitType].conversionFunctions[unit2][unit1];
-        conversionFunctions = [result[1], result[0]];
+        return [result[1], result[0]];
       }
     }
   }
-  return conversionFunctions;
+
+  /* I add this return line just to satisfy typescript's intense checking requirement.
+     If the data in src\services\data.ts is valid, this line should never be reached. */
+  return [(num: number): number => num, (num: number): number => num];
 };
 
 export const getFormula = (
@@ -128,8 +132,9 @@ export const getFormula = (
   unit1: TUnit,
   unit2: TUnit
 ): string => {
-  let formula;
   const unit1Keys = Object.keys(data[unitType].formulas);
+  // Traditional for loop was chosen (over alternatives like forEach) so that the function is exited on
+  // execution of first return statement. This significantly improves performance as the entire data won't be parsed (most of the time).
   for (let i = 0; i < unit1Keys.length; i++) {
     let unit1Key = unit1Keys[i];
     let matchingUnit2Keys = Object.keys(data[unitType].formulas[unit1Key]);
@@ -137,13 +142,16 @@ export const getFormula = (
     for (let j = 0; j < matchingUnit2Keys.length; j++) {
       let matchingUnit2Key = matchingUnit2Keys[j];
       if (unit1 === unit1Key && unit2 === matchingUnit2Key)
-        formula = data[unitType].formulas[unit1][unit2][0];
+        return data[unitType].formulas[unit1][unit2][0];
       else if (unit1 === matchingUnit2Key && unit2 === unit1Key) {
-        formula = data[unitType].formulas[unit2][unit1][1];
+        return data[unitType].formulas[unit2][unit1][1];
       }
     }
   }
-  return formula;
+
+  /* I add this return line just to satisfy typescript's intense checking requirement.
+    If the data in src\services\data.ts is valid, this line should never be reached. */
+  return "formula not found";
 };
 
 interface IUpdateUnitParams {
