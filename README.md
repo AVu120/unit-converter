@@ -1,4 +1,4 @@
-# Unit Converter
+<h1 align="center">Unit Converter</h1>
 
 ![image](https://user-images.githubusercontent.com/38395166/132076898-fc741393-212b-43fb-9289-a910666a2ea6.png)
 
